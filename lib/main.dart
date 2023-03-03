@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:homework_app/add_new_page.dart';
 import 'package:homework_app/settings.dart';
 import 'homework_page.dart';
 
@@ -36,6 +35,7 @@ class _HomeworkAppState extends State<HomeworkApp> {
           centerTitle: true,
         ),
         body: Center(
+          //child: TravelWidget(),
           child: _navOptions.elementAt(_pageIndex),
         ),
         //simply to navigate between homework list screen and settings

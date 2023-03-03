@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
 
-//just a temporary course of action to serve as a placeholder
-// course list should be retrieved from data
-const List<String> courseList = <String>['Course A', 'Course B'];
 class AddNewPage extends StatefulWidget {
   const AddNewPage({Key? key}) : super(key: key);
 
@@ -12,7 +9,6 @@ class AddNewPage extends StatefulWidget {
 
 class _AddNewPageState extends State<AddNewPage> {
 
-  String dropdownValue = courseList[0];
 
   @override
   Widget build(BuildContext context) {
@@ -23,44 +19,105 @@ class _AddNewPageState extends State<AddNewPage> {
       ),
       body: Column(
         children: <Widget>[
-          TextFormField(
-            decoration: const InputDecoration(
-              labelText: 'Homework'
+          Container(
+            padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
+            child: TextFormField(
+              decoration: const InputDecoration(
+                labelText: 'Homework',
+              ),
             ),
           ),
-          TextFormField(
-            decoration: const InputDecoration(
-                labelText: 'Due date'
+          Container(
+            padding: const EdgeInsets.fromLTRB(4, 0, 4, 4),
+            child: TextButton(
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SizedBox(
+                      height: 200,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const Text('Modal BottomSheet'),
+                            ElevatedButton(
+                              child: const Text('Close BottomSheet'),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+                child: const Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    'Course',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
             ),
           ),
-          DropdownButton<String>(
-            value: dropdownValue,
-            icon: const Icon(Icons.arrow_downward),
-            elevation: 16,
-            style: const TextStyle(color: Colors.deepPurple),
-            underline: Container(
-              height: 2,
-              color: Colors.deepPurpleAccent,
+          Container(
+            padding: const EdgeInsets.fromLTRB(4, 0, 4, 4),
+            child: TextButton(
+              onPressed: () {
+                showModalBottomSheet<void>(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SizedBox(
+                      height: 200,
+                      child: Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          mainAxisSize: MainAxisSize.min,
+                          children: <Widget>[
+                            const Text('Modal BottomSheet'),
+                            ElevatedButton(
+                              child: const Text('Close BottomSheet'),
+                              onPressed: () => Navigator.pop(context),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+              child: const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Due date',
+                  style: TextStyle(
+                    fontSize: 16,
+                  ),
+                ),
+              ),
             ),
-            onChanged: (String? value) {
-              // This is called when the user selects an item.
-              setState(() {
-                dropdownValue = value!;
-              });
-            },
-            items: courseList.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
           ),
-          const TextField(
-            decoration: InputDecoration(
-                labelText: 'Notes'
+          Container(
+            padding: const EdgeInsets.fromLTRB(12, 10, 12, 12),
+            child: const TextField(
+              decoration: InputDecoration.collapsed(
+                  hintText: 'Note'
+              ),
             ),
           ),
         ],
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.amber[500],
+        onPressed: () {
+          //save
+        },
+        child: const Icon(Icons.save),
       ),
     );
   }
