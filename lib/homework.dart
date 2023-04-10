@@ -17,7 +17,7 @@ class Homework{
     return {
       'id': id,
       'title': title,
-      'source': course,
+      'course': course,
       'date': date,
     };
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'add_new_page.dart';
+import 'edit_page.dart';
 import 'homework.dart';
 import 'settings.dart';
 import 'notes_page.dart';
@@ -14,13 +15,12 @@ class HomeworkPage extends StatefulWidget {
 
 class _HomeworkPageState extends State<HomeworkPage> {
 
-  //just in place of actual data for now
-  final List<String> entries = <String>['A', 'B', 'C'];
-  final List<Widget> nav_options = [
-    HomeworkPage(),
-    Settings(),
-  ];
+  String currentDate = "";
 
+  final List<Widget> navOptions = [
+    const HomeworkPage(),
+    const Settings(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -38,28 +38,63 @@ class _HomeworkPageState extends State<HomeworkPage> {
               padding: const EdgeInsets.all(8),
               itemCount: snapshot.data?.length,
               itemBuilder: (BuildContext context, int index) {
-                return Column(
-                  children: [
-                    //when sorted by date,
-                    //displays hw by each due date
-                    if(index == 0) Text('Due date'),
-                    ListTile(
-                      title: Text('Homework ${entries[index]}'),
-                      subtitle: const Text('Tap here for notes'),
+                //this solution took waaay to long to figure out
+                return LayoutBuilder(builder: (context, constraints) {
+                  if(currentDate != snapshot.data?[index].date){
+                    currentDate = snapshot.data![index].date;
+                    return Column(
+                      children: [
+                        ListTile(
+                          title: Text('${snapshot.data?[index].date}'),
+                          tileColor: Colors.amberAccent,
+                        ),
+                        ListTile(
+                          title: Text('${snapshot.data?[index].title}'),
+                          subtitle: Text('${snapshot.data?[index].course}'),
+                          tileColor: Colors.amber,
+                          onTap: () {
+                            Navigator.push(
+                              context, MaterialPageRoute<Widget>(
+                                builder: (BuildContext context) {
+                                  return NotesPage(snapshot.data![index]);
+                                }
+                            ),
+                            );
+                          },
+                          onLongPress: () {
+                            Navigator.push(
+                                context, MaterialPageRoute(
+                                builder: (context) => EditHomework(snapshot.data![index].id!)
+                            )
+                            ).then((value) => setState(() {}));
+                          },
+                        )
+                      ],
+                    );
+                  } else{
+                    return ListTile(
+                      title: Text('${snapshot.data?[index].title}'),
+                      subtitle: Text('${snapshot.data?[index].course}'),
                       tileColor: Colors.amber,
                       onTap: () {
                         Navigator.push(
-                          context,
-                          MaterialPageRoute<Widget>(
-                              builder: (BuildContext context) {
-                                return NotesPage(entries[index]);
-                              }
-                          ),
+                          context, MaterialPageRoute<Widget>(
+                            builder: (BuildContext context) {
+                              return NotesPage(snapshot.data![index]);
+                            }
+                        ),
                         );
                       },
-                    ),
-                  ]
-                );
+                      onLongPress: () {
+                        Navigator.push(
+                            context, MaterialPageRoute(
+                            builder: (context) => EditHomework(snapshot.data![index].id!)
+                        )
+                        ).then((value) => setState(() {}));
+                      },
+                    );
+                  }
+                });
               }
             );
           }
@@ -75,9 +110,9 @@ class _HomeworkPageState extends State<HomeworkPage> {
         backgroundColor: Colors.amber[500],
         onPressed: () {
           Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddNewPage())
-          );
+            context, MaterialPageRoute(
+              builder: (context) => const AddNewPage())
+          ).then((value) => setState(() {}));
         },
       ),
     );
