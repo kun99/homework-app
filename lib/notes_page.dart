@@ -29,48 +29,56 @@ class _NotesPageState extends State<NotesPage> {
       body: Hero(
         tag: 'Homework notes',
         child: Material(
-          child: ListView(
+          child: Padding(
             padding: const EdgeInsets.all(8),
-            children: [
-              ListTile(
-                title: Text(widget.homework.title),
-                subtitle: Text(widget.homework.course),
-                tileColor: Colors.amber[300],
-                onTap: () {
-                  Navigator.push(
-                    context, MaterialPageRoute(
-                      builder: (context) => EditHomework(widget.homework.id!)
-                    )
-                  );
-                },
-              ),
-              Expanded(
-                child: ListView(
-                  shrinkWrap: true,
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
-                      height: 300,
-                      color: Colors.black12,
-                      child: FutureBuilder<List<Note>>(
-                        future: DatabaseThangs.instance.getNote(widget.homework.id!),
-                        builder: (BuildContext context, AsyncSnapshot<List<Note>> snapshot) {
-                          noteController.text = snapshot.data![0].content;
-                          return TextField(
-                            controller: noteController,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            decoration: const InputDecoration.collapsed(
-                                hintText: ''
-                            ),
-                          );
-                        },
+            child: Column(
+              children: [
+                ListTile(
+                  title: Text(widget.homework.title),
+                  subtitle: Text(widget.homework.course),
+                  tileColor: Colors.amber[300],
+                  onTap: () {
+                    Navigator.push(
+                      context, MaterialPageRoute(
+                        builder: (context) => EditHomework(widget.homework.id!)
                       )
-                    ),
-                  ],
+                    );
+                  },
                 ),
-              ),
-            ],
+                Expanded(
+                  child: ListView(
+                    shrinkWrap: true,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
+                        height: 300,
+                        color: Colors.black12,
+                        child: FutureBuilder<List<Note>>(
+                          future: DatabaseThangs.instance.getNote(widget.homework.id!),
+                          builder: (BuildContext context, AsyncSnapshot<List<Note>> snapshot) {
+                            if (!snapshot.hasData) {
+                              return const Center(
+                                  child: Text("no note found")
+                              );
+                            } else{
+                              noteController.text = snapshot.data![0].content;
+                              return TextField(
+                                controller: noteController,
+                                keyboardType: TextInputType.multiline,
+                                maxLines: null,
+                                decoration: const InputDecoration.collapsed(
+                                    hintText: ''
+                                ),
+                              );
+                            }
+                          },
+                        )
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           )
         ),
       ),

@@ -30,7 +30,6 @@ class _HomeworkPageState extends State<HomeworkPage> {
         future: DatabaseThangs.instance.getHomework(),
         builder: (BuildContext context, AsyncSnapshot<List<Homework>> snapshot) {
           if (!snapshot.hasData) {
-            currentDate = "";
             return const Center(
                 child: CircularProgressIndicator()
             );
@@ -42,6 +41,12 @@ class _HomeworkPageState extends State<HomeworkPage> {
                 //this solution took waaay to long to figure out
                 return LayoutBuilder(builder: (context, constraints) {
                   if(currentDate != snapshot.data?[index].date){
+                    if(index+1 == snapshot.data?.length){
+                      currentDate = "";
+                    }
+                    else{
+                      currentDate = snapshot.data![index].date;
+                    }
                     currentDate = snapshot.data![index].date;
                     return Column(
                       children: [
@@ -73,6 +78,9 @@ class _HomeworkPageState extends State<HomeworkPage> {
                       ],
                     );
                   } else{
+                    if(index+1 == snapshot.data?.length){
+                      currentDate = "";
+                    }
                     return ListTile(
                       title: Text('${snapshot.data?[index].title}'),
                       subtitle: Text('${snapshot.data?[index].course}'),
