@@ -28,33 +28,36 @@ class _HomeworkAppState extends State<HomeworkApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.amber,
-          title: const Text('HomeworkView'),
-          centerTitle: true,
-        ),
-        body: Center(
-          //child: TravelWidget(),
-          child: _navOptions.elementAt(_pageIndex),
-        ),
-        //simply to navigate between homework list screen and settings
-        //user will be able to reset/set notifications etc in settings
-        bottomNavigationBar: BottomNavigationBar(
-          items: const [
-            BottomNavigationBarItem(
-              icon: Icon(Icons.book),
-              label: 'Homework',
-            ),
-            BottomNavigationBarItem(
-                icon: Icon(Icons.settings),
-                label: 'Settings'
-            ),
-          ],
-          //to change icon color
-          currentIndex: _pageIndex,
-          selectedItemColor: Colors.amber[800],
-          onTap: _changePage,
+      home: GestureDetector(
+        onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
+        child: Scaffold(
+          appBar: AppBar(
+            backgroundColor: Colors.amber,
+            title: const Text('HomeworkView'),
+            centerTitle: true,
+          ),
+          body: Center(
+            //child: TravelWidget(),
+            child: _navOptions.elementAt(_pageIndex),
+          ),
+          //simply to navigate between homework list screen and settings
+          //user will be able to reset/set notifications etc in settings
+          bottomNavigationBar: BottomNavigationBar(
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.book),
+                label: 'Homework',
+              ),
+              BottomNavigationBarItem(
+                  icon: Icon(Icons.settings),
+                  label: 'Settings'
+              ),
+            ],
+            //to change icon color
+            currentIndex: _pageIndex,
+            selectedItemColor: Colors.amber[800],
+            onTap: _changePage,
+          ),
         ),
       ),
     );

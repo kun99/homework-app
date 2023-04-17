@@ -6,9 +6,9 @@ import 'homework.dart';
 
 class EditHomework extends StatefulWidget {
 
-  int id;
+  final int id;
 
-  EditHomework(this.id, {super.key});
+  const EditHomework(this.id, {super.key});
 
   @override
   State<EditHomework> createState() => _EditHomeworkState();

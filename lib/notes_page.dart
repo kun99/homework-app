@@ -7,8 +7,8 @@ import 'notes.dart';
 
 class NotesPage extends StatefulWidget {
 
-  Homework homework;
-  NotesPage(this.homework, {super.key});
+  final Homework homework;
+  const NotesPage(this.homework, {super.key});
 
   @override
   State<NotesPage> createState() => _NotesPageState();
@@ -47,7 +47,6 @@ class _NotesPageState extends State<NotesPage> {
               Expanded(
                 child: ListView(
                   shrinkWrap: true,
-                  physics: ClampingScrollPhysics(),
                   children: [
                     Container(
                       padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),

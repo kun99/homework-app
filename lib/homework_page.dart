@@ -30,6 +30,7 @@ class _HomeworkPageState extends State<HomeworkPage> {
         future: DatabaseThangs.instance.getHomework(),
         builder: (BuildContext context, AsyncSnapshot<List<Homework>> snapshot) {
           if (!snapshot.hasData) {
+            currentDate = "";
             return const Center(
                 child: CircularProgressIndicator()
             );
